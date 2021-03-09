@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Log</title>
+</head>
+<body>
+    <h1>Log List</h1>
+    <a href="/create">create Log</a>
+
+    <table border="1">
+        <tr>
+            <th>image_path</th>
+            <th>success</th>
+            <th>message</th>
+            <th>class_value</th>
+            <th>confidence</th>
+            <th>request_timestamp</th>
+            <th>response_timestamp</th>
+        </tr>
+        {% for log in object_list %}
+        <tr>
+            <td>{{ log.image_path }}</td>
+            <td>{{ log.success }}</td>
+            <td>{{ log.message }}</td>
+            <td>{{ log.class_value }}</td>
+            <td>{{ log.confidence }}</td>
+            <td>{{ log.request_timestamp }}</td>
+            <td>{{ log.response_timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

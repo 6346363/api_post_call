@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nginx:
+      image: ***.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:1.13
+      ports:
+        - "8000:8000"
+      volumes:
+        - ./nginx/conf:/etc/nginx/conf.d
+        - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+        - ./static:/static
+      depends_on:
+        - python  # pythonを先に起動
+
+  db:      
+      build: ./mariadb
+      environment:
+        MYSQL_ROOT_PASSWORD: ***
+        MYSQL_DATABASE: ***
+        MYSQL_USER: ***
+        MYSQL_PASSWORD: ***
+        TZ: 'Asia/Tokyo'
+      volumes:
+        - ./mysql:/var/lib/mysql
+        - ./sql:/docker-entrypoint-initdb.d
+        - ./db_limits/:/etc/systemd/system/mariadb.service.d
+
+  python:
+      build: ./python
+
+      volumes:
+        - ./src:/code
+        - ./static:/static
+
+      depends_on:
+        - db  # dbを先に起動
